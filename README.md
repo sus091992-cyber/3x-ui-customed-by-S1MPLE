@@ -1,6 +1,6 @@
-# 3x-ui روی Railway با یک پورت واحد 
+# S1MPLE PANEL روی Railway با یک پورت واحد
 
-این ریپازیتوری، 3x-ui رو به همراه یک nginx reverse proxy اجرا می‌کند که هم پنل وب و هم اینباند VLESS/WebSocket شما را از طریق **یک پورت واحد** (همان پورتی که Railway اختصاص می‌دهد) در دسترس می‌گذارد — دقیقاً مثل معماری RVG.
+این ریپازیتوری، **S1MPLE PANEL** (فروک شده از 3x-ui نسخه 3.6.0) رو به همراه یک nginx reverse proxy اجرا می‌کند که هم پنل وب و هم اینباند VLESS/WebSocket شما را از طریق **یک پورت واحد** (همان پورتی که Railway اختصاص می‌دهد) در دسترس می‌گذارد — دقیقاً مثل معماری RVG.
 
 ## چرا این کار لازم بود؟
 
@@ -20,11 +20,11 @@
 3. بعد از اتمام دیپلوی، به **Settings → Networking** بروید و **Generate Domain** بزنید (فقط همین یک دامنه لازم است، نیازی به Target Port خاص نیست چون nginx مستقیماً روی `$PORT` گوش می‌دهد)
 
 ### ۳. اولین ورود به پنل
-آدرس پنل شما این خواهد بود:
+آدرس پنل شما این خواهد باشد:
 ```
-https://دامنه‌شما.up.railway.app/managepanel/
+https://دامنه‌شما.up.railway.app/
 ```
-یوزرنیم/پسورد پیش‌فرض 3x-ui را وارد کنید (admin/admin) و **حتماً بلافاصله از بخش تنظیمات تغییرش دهید**.
+یوزرنیم/پسورد پیش‌فرض S1MPLE PANEL را وارد کنید (admin/admin) و **حتماً بلافاصله از بخش تنظیمات تغییرش دهید**.
 
 ### ۴. ساخت Inbound
 در پنل، یک Inbound جدید بسازید با این تنظیمات دقیق:
@@ -36,14 +36,14 @@ https://دامنه‌شما.up.railway.app/managepanel/
 | Listen IP | خالی یا `0.0.0.0` |
 | Network | ws |
 | Security | none |
-| Path | هر مسیر دلخواه، مثلاً `/cdn` |
+| Path | `/inbound` (این مسیر در nginx تنظیم شده) |
 
 ⚠️ اگر بخواهید پورت Inbound را عددی غیر از 8080 بگذارید، باید داخل فایل `nginx.conf.template` هم مقدار `127.0.0.1:8080` را با همان عدد جدید هماهنگ کنید و دوباره Push/Deploy کنید.
 
 ### ۵. ساخت لینک کلاینت
 
 ```
-vless://UUID@دامنه‌شما.up.railway.app:443?encryption=none&security=tls&sni=دامنه‌شما.up.railway.app&fp=chrome&type=ws&host=دامنه‌شما.up.railway.app&path=%2Fcdn#MyConfig
+vless://UUID@دامنه‌شما.up.railway.app:443?encryption=none&security=tls&sni=دامنه‌شما.up.railway.app&fp=chrome&type=ws&host=دامنه‌شما.up.railway.app&path=%2Finbound#MyConfig
 ```
 
 جای `UUID` و `دامنه‌شما` و `path` را با مقادیر واقعی خودتان جایگزین کنید.
@@ -52,11 +52,11 @@ vless://UUID@دامنه‌شما.up.railway.app:443?encryption=none&security=tls
 
 در مرورگر باز کنید:
 ```
-https://دامنه‌شما.up.railway.app/cdn
+https://دامنه‌شما.up.railway.app/inbound
 ```
 باید پیام **"Bad Request"** ببینید (یعنی درخواست به Xray رسیده). اگر پنل هم به همین شکل جواب داد یعنی مسیر nginx سالم است:
 ```
-https://دامنه‌شما.up.railway.app/managepanel/
+https://دامنه‌شما.up.railway.app/
 ```
 
 ## نکات مهم
