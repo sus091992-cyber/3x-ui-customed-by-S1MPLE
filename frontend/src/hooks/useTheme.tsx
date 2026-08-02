@@ -32,92 +32,92 @@ const initialDark = readBool(STORAGE_DARK, true);
 const initialUltra = readBool(STORAGE_ULTRA, false);
 applyDom(initialDark, initialUltra);
 
-// S1MPLE PANEL color tokens - hovering gradient liquid red green aqua
-const S1MPLE_PRIMARY = '#ff0040';
-const S1MPLE_SECONDARY = '#00ff88';
-const S1MPLE_TERTIARY = '#00d4ff';
+// S1MPLE PANEL color tokens - hovering liquid red, orange, and green
+const S1MPLE_PRIMARY = '#ff3158';
+const S1MPLE_SECONDARY = '#42e695';
+const S1MPLE_TERTIARY = '#ff8a1f';
 
 const DARK_TOKENS = {
-  colorBgBase: '#0a0000',
-  colorBgLayout: '#0a0000',
-  colorBgContainer: '#1a0505',
-  colorBgElevated: '#250808',
+  colorBgBase: '#100b0b',
+  colorBgLayout: '#100b0b',
+  colorBgContainer: '#1c1210',
+  colorBgElevated: '#281914',
   colorPrimary: S1MPLE_PRIMARY,
-  colorPrimaryHover: '#ff3366',
-  colorPrimaryActive: '#cc0033',
+  colorPrimaryHover: '#ff5b78',
+  colorPrimaryActive: '#d91f45',
   colorPrimaryTextHover: '#ffffff',
   colorPrimaryTextActive: '#ffffff',
   colorSuccess: S1MPLE_SECONDARY,
-  colorSuccessHover: '#33ff99',
-  colorSuccessActive: '#00cc6e',
+  colorSuccessHover: '#70f2ad',
+  colorSuccessActive: '#22bc70',
   colorInfo: S1MPLE_TERTIARY,
-  colorInfoHover: '#33ddff',
-  colorInfoActive: '#00aacc',
-  colorBorderSecondary: 'rgba(255, 100, 100, 0.15)',
+  colorInfoHover: '#ffad63',
+  colorInfoActive: '#e46812',
+  colorBorderSecondary: 'rgba(255, 138, 31, 0.18)',
   colorText: 'rgba(255, 255, 255, 0.95)',
-  colorTextSecondary: 'rgba(255, 200, 200, 0.7)',
-  colorTextTertiary: 'rgba(255, 180, 180, 0.5)',
-  colorTextPlaceholder: 'rgba(255, 150, 150, 0.4)',
+  colorTextSecondary: 'rgba(255, 220, 200, 0.72)',
+  colorTextTertiary: 'rgba(255, 205, 180, 0.52)',
+  colorTextPlaceholder: 'rgba(255, 190, 150, 0.44)',
 } as const;
 const ULTRA_DARK_TOKENS = {
-  colorBgBase: '#050000',
-  colorBgLayout: '#050000',
-  colorBgContainer: '#0d0202',
-  colorBgElevated: '#150303',
+  colorBgBase: '#080606',
+  colorBgLayout: '#080606',
+  colorBgContainer: '#120b0a',
+  colorBgElevated: '#1c100d',
   colorPrimary: S1MPLE_PRIMARY,
-  colorPrimaryHover: '#ff3366',
-  colorPrimaryActive: '#cc0033',
+  colorPrimaryHover: '#ff5b78',
+  colorPrimaryActive: '#d91f45',
   colorPrimaryTextHover: '#ffffff',
   colorPrimaryTextActive: '#ffffff',
   colorSuccess: S1MPLE_SECONDARY,
-  colorSuccessHover: '#33ff99',
-  colorSuccessActive: '#00cc6e',
+  colorSuccessHover: '#70f2ad',
+  colorSuccessActive: '#22bc70',
   colorInfo: S1MPLE_TERTIARY,
-  colorInfoHover: '#33ddff',
-  colorInfoActive: '#00aacc',
-  colorBorderSecondary: 'rgba(255, 80, 80, 0.1)',
+  colorInfoHover: '#ffad63',
+  colorInfoActive: '#e46812',
+  colorBorderSecondary: 'rgba(255, 138, 31, 0.13)',
   colorText: 'rgba(255, 255, 255, 0.98)',
-  colorTextSecondary: 'rgba(255, 180, 180, 0.65)',
-  colorTextTertiary: 'rgba(255, 150, 150, 0.45)',
-  colorTextPlaceholder: 'rgba(255, 120, 120, 0.35)',
+  colorTextSecondary: 'rgba(255, 220, 200, 0.68)',
+  colorTextTertiary: 'rgba(255, 200, 175, 0.48)',
+  colorTextPlaceholder: 'rgba(255, 175, 135, 0.38)',
 } as const;
 const DARK_LAYOUT_TOKENS = {
-  bodyBg: '#0a0000',
-  headerBg: '#0d0000',
+  bodyBg: '#100b0b',
+  headerBg: '#140d0b',
   headerColor: '#ffffff',
-  footerBg: '#0a0000',
-  siderBg: '#0d0000',
-  triggerBg: '#1a0505',
+  footerBg: '#100b0b',
+  siderBg: '#140d0b',
+  triggerBg: '#25150f',
   triggerColor: '#ffffff',
 } as const;
 const ULTRA_DARK_LAYOUT_TOKENS = {
-  bodyBg: '#050000',
-  headerBg: '#080000',
+  bodyBg: '#080606',
+  headerBg: '#0d0807',
   headerColor: '#ffffff',
-  footerBg: '#050000',
-  siderBg: '#080000',
-  triggerBg: '#0d0202',
+  footerBg: '#080606',
+  siderBg: '#0d0807',
+  triggerBg: '#1a0f0b',
   triggerColor: '#ffffff',
 } as const;
 const DARK_MENU_TOKENS = {
-  darkItemBg: '#0d0000',
-  darkSubMenuItemBg: '#0a0000',
-  darkPopupBg: '#1a0505',
-  darkItemHoverBg: 'rgba(255, 0, 64, 0.1)',
-  darkItemActiveBg: 'rgba(255, 0, 64, 0.15)',
+  darkItemBg: '#140d0b',
+  darkSubMenuItemBg: '#100b0b',
+  darkPopupBg: '#241510',
+  darkItemHoverBg: 'rgba(255, 138, 31, 0.12)',
+  darkItemActiveBg: 'rgba(255, 49, 88, 0.18)',
 } as const;
 const ULTRA_DARK_MENU_TOKENS = {
-  darkItemBg: '#080000',
-  darkSubMenuItemBg: '#050000',
-  darkPopupBg: '#0d0202',
-  darkItemHoverBg: 'rgba(255, 0, 64, 0.08)',
-  darkItemActiveBg: 'rgba(255, 0, 64, 0.12)',
+  darkItemBg: '#0d0807',
+  darkSubMenuItemBg: '#080606',
+  darkPopupBg: '#1a0f0b',
+  darkItemHoverBg: 'rgba(255, 138, 31, 0.1)',
+  darkItemActiveBg: 'rgba(255, 49, 88, 0.14)',
 } as const;
 const DARK_CARD_TOKENS = {
-  colorBorderSecondary: 'rgba(255, 100, 100, 0.15)',
+  colorBorderSecondary: 'rgba(255, 138, 31, 0.18)',
 } as const;
 const ULTRA_DARK_CARD_TOKENS = {
-  colorBorderSecondary: 'rgba(255, 80, 80, 0.1)',
+  colorBorderSecondary: 'rgba(255, 138, 31, 0.13)',
 } as const;
 const STATISTIC_TOKENS = {
   contentFontSize: 17,
@@ -133,8 +133,8 @@ const LIGHT_CONTRAST_TOKENS = {
 } as const;
 const LIGHT_BUTTON_TOKENS = {
   colorPrimary: S1MPLE_PRIMARY,
-  colorPrimaryHover: '#ff3366',
-  colorPrimaryActive: '#cc0033',
+  colorPrimaryHover: '#ff5b78',
+  colorPrimaryActive: '#d91f45',
 } as const;
 
 // hashed:false drops the `:where(.css-<hash>)` wrapper antd puts around every

@@ -1,0 +1,223 @@
+:root {
+  --s1mple-red: #ff3158;
+  --s1mple-orange: #ff8a1f;
+  --s1mple-green: #42e695;
+  --s1mple-ink: #100b0b;
+  --s1mple-gradient: linear-gradient(120deg, var(--s1mple-red), var(--s1mple-orange) 48%, var(--s1mple-green));
+  --s1mple-gradient-soft: linear-gradient(
+    120deg,
+    color-mix(in srgb, var(--s1mple-red) 22%, transparent),
+    color-mix(in srgb, var(--s1mple-orange) 18%, transparent) 48%,
+    color-mix(in srgb, var(--s1mple-green) 18%, transparent)
+  );
+}
+
+html,
+body,
+#app {
+  min-height: 100%;
+}
+
+body {
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: var(--s1mple-ink);
+}
+
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  z-index: 0;
+  width: min(58vw, 780px);
+  height: min(58vw, 780px);
+  border-radius: 46% 54% 63% 37% / 43% 38% 62% 57%;
+  pointer-events: none;
+  filter: blur(78px) saturate(145%);
+  opacity: 0.24;
+  will-change: transform, border-radius;
+}
+
+body::before {
+  top: -28vw;
+  left: -18vw;
+  background: radial-gradient(circle at 42% 48%, var(--s1mple-red), transparent 68%);
+  animation: s1mple-liquid-a 25s ease-in-out infinite alternate;
+}
+
+body::after {
+  right: -22vw;
+  bottom: -30vw;
+  background: radial-gradient(circle at 46% 42%, var(--s1mple-green), transparent 68%);
+  animation: s1mple-liquid-b 30s ease-in-out infinite alternate;
+}
+
+#app > * {
+  position: relative;
+  z-index: 1;
+}
+
+.index-page,
+.clients-page,
+.inbounds-page,
+.xray-page,
+.settings-page,
+.nodes-page,
+.groups-page,
+.hosts-page,
+.api-docs-page,
+.subscription-page {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 92% 8%, color-mix(in srgb, var(--s1mple-orange) 9%, transparent), transparent 28rem),
+    radial-gradient(circle at 5% 92%, color-mix(in srgb, var(--s1mple-green) 7%, transparent), transparent 28rem),
+    var(--bg-page, #f3f4f6);
+}
+
+.index-page.is-dark,
+.clients-page.is-dark,
+.inbounds-page.is-dark,
+.xray-page.is-dark,
+.settings-page.is-dark,
+.nodes-page.is-dark,
+.groups-page.is-dark,
+.hosts-page.is-dark,
+.api-docs-page.is-dark,
+.subscription-page.is-dark {
+  background:
+    radial-gradient(circle at 92% 8%, color-mix(in srgb, var(--s1mple-orange) 11%, transparent), transparent 28rem),
+    radial-gradient(circle at 5% 92%, color-mix(in srgb, var(--s1mple-green) 8%, transparent), transparent 28rem),
+    var(--bg-page, #17100f);
+}
+
+.ant-layout-sider {
+  position: relative;
+  overflow: hidden;
+  border-inline-end: 1px solid color-mix(in srgb, var(--s1mple-orange) 18%, var(--ant-color-border-secondary));
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--s1mple-red) 13%, transparent), transparent 34%),
+    linear-gradient(25deg, color-mix(in srgb, var(--s1mple-green) 8%, transparent), transparent 58%),
+    var(--ant-layout-sider-bg);
+}
+
+.ant-layout-sider::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--s1mple-gradient-soft);
+  opacity: 0.55;
+  filter: blur(34px);
+  transform: translate3d(22%, -12%, 0) scale(1.15);
+}
+
+.sider-brand,
+.drawer-header {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--s1mple-red) 10%, transparent), transparent 68%);
+}
+
+.ant-card,
+.ant-modal-content,
+.ant-popover-inner,
+.ant-dropdown-menu {
+  border-color: color-mix(in srgb, var(--s1mple-orange) 16%, var(--ant-color-border));
+}
+
+.ant-card {
+  position: relative;
+  overflow: hidden;
+  background-image: linear-gradient(135deg, color-mix(in srgb, var(--s1mple-red) 4%, transparent), transparent 45%);
+}
+
+.ant-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(115deg, transparent 34%, color-mix(in srgb, var(--s1mple-green) 8%, transparent), transparent 68%);
+  opacity: 0;
+  transition: opacity 280ms ease;
+}
+
+.ant-card:hover::after {
+  opacity: 1;
+}
+
+.ant-btn-primary {
+  border: 0;
+  background: var(--s1mple-gradient) !important;
+  box-shadow: 0 8px 22px color-mix(in srgb, var(--s1mple-red) 24%, transparent);
+  transition: transform 180ms ease, filter 180ms ease, box-shadow 180ms ease;
+}
+
+.ant-btn-primary:hover,
+.ant-btn-primary:focus-visible {
+  filter: saturate(1.18) brightness(1.08);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px color-mix(in srgb, var(--s1mple-orange) 32%, transparent);
+}
+
+.ant-input:hover,
+.ant-input-affix-wrapper:hover,
+.ant-select-selector:hover,
+.ant-picker:hover {
+  border-color: var(--s1mple-orange) !important;
+}
+
+.ant-input:focus,
+.ant-input-affix-wrapper-focused,
+.ant-select-focused .ant-select-selector,
+.ant-picker-focused {
+  border-color: var(--s1mple-green) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--s1mple-green) 16%, transparent) !important;
+}
+
+.sider-nav .ant-menu-item,
+.sider-utility .ant-menu-item,
+.drawer-menu .ant-menu-item {
+  transition: background 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.sider-nav .ant-menu-item:hover,
+.sider-utility .ant-menu-item:hover,
+.drawer-menu .ant-menu-item:hover {
+  transform: translateX(3px);
+}
+
+.sider-nav .ant-menu-item-selected,
+.sider-utility .ant-menu-item-selected,
+.drawer-menu .ant-menu-item-selected {
+  background: var(--s1mple-gradient-soft) !important;
+  box-shadow: inset 3px 0 0 var(--s1mple-orange);
+}
+
+@keyframes s1mple-liquid-a {
+  0% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); border-radius: 46% 54% 63% 37% / 43% 38% 62% 57%; }
+  50% { transform: translate3d(24vw, 17vh, 0) rotate(24deg) scale(1.12); border-radius: 63% 37% 45% 55% / 58% 62% 38% 42%; }
+  100% { transform: translate3d(8vw, 42vh, 0) rotate(48deg) scale(0.94); border-radius: 35% 65% 58% 42% / 62% 36% 64% 38%; }
+}
+
+@keyframes s1mple-liquid-b {
+  0% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); border-radius: 52% 48% 39% 61% / 61% 44% 56% 39%; }
+  50% { transform: translate3d(-20vw, -14vh, 0) rotate(-28deg) scale(1.08); border-radius: 38% 62% 58% 42% / 44% 64% 36% 56%; }
+  100% { transform: translate3d(-8vw, -38vh, 0) rotate(-48deg) scale(0.92); border-radius: 64% 36% 42% 58% / 57% 39% 61% 43%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  body::after {
+    animation: none;
+  }
+
+  .ant-btn-primary:hover,
+  .ant-btn-primary:focus-visible,
+  .sider-nav .ant-menu-item:hover,
+  .sider-utility .ant-menu-item:hover,
+  .drawer-menu .ant-menu-item:hover {
+    transform: none;
+  }
+}
