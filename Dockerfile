@@ -1,6 +1,4 @@
-#!/bin/bash
-
-# Build stage - compile Go + build frontend
+# 1. Frontend Build
 FROM node:22-alpine AS frontend-builder
 WORKDIR /src/frontend
 COPY frontend/package.json frontend/package-lock.json ./
@@ -9,6 +7,7 @@ COPY frontend/ ./
 COPY internal/web/translation /src/internal/web/translation
 RUN npm run build
 
+# 2. Backend Build
 FROM golang:1.26-alpine AS backend-builder
 RUN apk add --no-cache git make gcc musl-dev sqlite-dev
 WORKDIR /src
@@ -18,7 +17,7 @@ COPY . .
 COPY --from=frontend-builder /src/internal/web/dist ./internal/web/dist
 RUN CGO_ENABLED=1 go build -ldflags "-s -w" -o x-ui main.go
 
-# Runtime stage
+# 3. Final Runtime
 FROM alpine:3.19
 RUN apk add --no-cache curl bash ca-certificates socat tzdata sqlite nginx gettext \
     && ln -sf /usr/share/zoneinfo/Asia/Tehran /etc/localtime
