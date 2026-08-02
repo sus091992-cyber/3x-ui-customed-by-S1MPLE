@@ -1,57 +1,38 @@
-# Build stage - compile Go + build frontend
-FROM golang:1.26-alpine AS builder
+# 1. Frontend Build
+FROM node:22-alpine AS frontend-builder
+WORKDIR /src/frontend
+COPY frontend/package.json frontend/package-lock.json ./
+RUN npm ci
+COPY frontend/ ./
+COPY internal/web/translation /src/internal/web/translation
+RUN npm run build
 
-RUN apk add --no-cache \
-    git \
-    make \
-    gcc \
-    musl-dev \
-    sqlite-dev \
-    nodejs \
-    npm
-
+# 2. Backend Build
+FROM golang:1.26-alpine AS backend-builder
+RUN apk add --no-cache git make gcc musl-dev sqlite-dev
 WORKDIR /src
-
-# Copy go mod files first for caching
 COPY go.mod go.sum ./
 RUN go mod download
-
-# Copy source
 COPY . .
+COPY --from=frontend-builder /src/internal/web/dist ./internal/web/dist
+# Build x-ui binary
+RUN CGO_ENABLED=1 go build -ldflags "-s -w" -o x-ui main.go
 
-# Build frontend first
-WORKDIR /src/frontend
-RUN npm ci && npm run build
-
-# Build Go binary
-WORKDIR /src
-RUN make build
-
-# Runtime stage
+# 3. Final Runtime
 FROM alpine:3.19
-
-RUN apk add --no-cache \
-    curl \
-    bash \
-    ca-certificates \
-    socat \
-    tzdata \
-    sqlite \
-    nginx \
-    gettext \
+RUN apk add --no-cache curl bash ca-certificates socat tzdata sqlite nginx gettext \
     && ln -sf /usr/share/zoneinfo/Asia/Tehran /etc/localtime
 
-# Copy binary from builder
-COPY --from=builder /src/x-ui /usr/local/x-ui/x-ui
-COPY --from=builder /src/internal/web/dist /usr/local/x-ui/web/dist
-COPY --from=builder /src/internal/web/translation /usr/local/x-ui/web/translation
+WORKDIR /app
+COPY --from=backend-builder /src/x-ui /usr/local/x-ui/x-ui
+COPY --from=backend-builder /src/internal/web/translation /usr/local/x-ui/web/translation
 
-RUN mkdir -p /etc/x-ui /var/log/x-ui
-
+# Copy nginx and start scripts
 COPY nginx.conf.template /etc/nginx/nginx.conf.template
 COPY start.sh /start.sh
 RUN chmod +x /start.sh /usr/local/x-ui/x-ui
 
-EXPOSE $PORT
+RUN mkdir -p /etc/x-ui /var/log/x-ui
 
+EXPOSE $PORT
 CMD ["/start.sh"]
