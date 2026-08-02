@@ -1,4 +1,4 @@
-# 1. Frontend Build
+# 1. Frontend Build (single platform)
 FROM node:22-alpine AS frontend-builder
 WORKDIR /src/frontend
 COPY frontend/package.json frontend/package-lock.json ./
