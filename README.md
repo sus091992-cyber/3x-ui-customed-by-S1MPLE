@@ -1,65 +1,208 @@
-# S1MPLE PANEL روی Railway با یک پورت واحد
+[English](/README.md) | [فارسی](/README.fa_IR.md) | [العربية](/README.ar_EG.md) | [中文](/README.zh_CN.md) | [Español](/README.es_ES.md) | [Русский](/README.ru_RU.md) | [Türkçe](/README.tr_TR.md)
 
-این ریپازیتوری، **S1MPLE PANEL** (فروک شده از 3x-ui نسخه 3.6.0) رو به همراه یک nginx reverse proxy اجرا می‌کند که هم پنل وب و هم اینباند VLESS/WebSocket شما را از طریق **یک پورت واحد** (همان پورتی که Railway اختصاص می‌دهد) در دسترس می‌گذارد — دقیقاً مثل معماری RVG.
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./media/S1MPLE PANEL-dark.png">
+    <img alt="S1MPLE PANEL" src="./media/S1MPLE PANEL-light.png">
+  </picture>
+</p>
 
-## چرا این کار لازم بود؟
+<p align="center">
+  <a href="https://github.com/MHSanaei/S1MPLE PANEL/releases"><img src="https://img.shields.io/github/v/release/mhsanaei/S1MPLE PANEL" alt="Release"></a>
+  <a href="https://github.com/MHSanaei/S1MPLE PANEL/actions"><img src="https://img.shields.io/github/actions/workflow/status/mhsanaei/S1MPLE PANEL/release.yml.svg" alt="Build"></a>
+  <a href="#"><img src="https://img.shields.io/github/go-mod/go-version/mhsanaei/S1MPLE PANEL.svg" alt="GO Version"></a>
+  <a href="https://github.com/MHSanaei/S1MPLE PANEL/releases/latest"><img src="https://img.shields.io/github/downloads/mhsanaei/S1MPLE PANEL/total.svg" alt="Downloads"></a>
+  <a href="https://www.gnu.org/licenses/gpl-3.0.en.html"><img src="https://img.shields.io/badge/license-GPL%20V3-blue.svg?longCache=true" alt="License"></a>
+  <a href="https://pkg.go.dev/github.com/mhsanaei/S1MPLE PANEL/v3"><img src="https://pkg.go.dev/badge/github.com/mhsanaei/S1MPLE PANEL/v3.svg" alt="Go Reference"></a>
+</p>
 
-به‌صورت پیش‌فرض، 3x-ui پنل وب را روی یک پورت و هر Inbound را روی پورت دیگری اجرا می‌کند. Railway Public Domain فقط به **یک** پورت داخلی وصل می‌شود، پس یا پنل در دسترس بود یا Inbound، نه هر دو. این نسخه با اضافه کردن nginx، هر دو را زیر یک پورت مدیریت می‌کند.
+# S1MPLE PANEL
 
-## مراحل دیپلوی
+S1MPLE PANEL is an advanced, open-source web control panel for managing [Xray-core](https://github.com/XTLS/Xray-core) servers. It provides a clean, multi-language interface for deploying, configuring, and monitoring a wide range of proxy and VPN protocols — from a single VPS to multi-node deployments.
 
-### ۱. ریپازیتوری بسازید
-یک ریپازیتوری جدید در گیت‌هاب بسازید (خصوصی یا عمومی، فرقی ندارد) و این سه فایل را در ریشه‌ی آن قرار دهید:
-- `Dockerfile`
-- `nginx.conf.template`
-- `start.sh`
+Built as an enhanced fork of the original X-UI project, S1MPLE PANEL adds broader protocol support, improved stability, per-client traffic accounting, and many quality-of-life features.
 
-### ۲. در Railway
-1. **New Project → Deploy from GitHub repo** و همین ریپازیتوری را انتخاب کنید
-2. Railway به‌طور خودکار `Dockerfile` را تشخیص و بیلد می‌کند
-3. بعد از اتمام دیپلوی، به **Settings → Networking** بروید و **Generate Domain** بزنید (فقط همین یک دامنه لازم است، نیازی به Target Port خاص نیست چون nginx مستقیماً روی `$PORT` گوش می‌دهد)
+> [!IMPORTANT]
+> This project is intended for personal use only. Please do not use it for illegal purposes or in a production environment.
 
-### ۳. اولین ورود به پنل
-آدرس پنل شما این خواهد باشد:
+## Features
+
+- **Multi-protocol inbounds** — VLESS, VMess, Trojan, Shadowsocks, WireGuard, Hysteria2, HTTP, SOCKS (Mixed), Dokodemo-door / Tunnel, and TUN.
+- **Modern transports & security** — TCP (Raw), mKCP, WebSocket, gRPC, HTTPUpgrade, and XHTTP, secured with TLS, XTLS, and REALITY.
+- **Fallbacks** — serve multiple protocols on a single port (e.g. VLESS and Trojan on 443) using Xray's fallback support.
+- **Per-client management** — traffic quotas, expiry dates, IP limits, live online status, and one-click share links, QR codes, and subscriptions.
+- **Traffic statistics** — per inbound, per client, and per outbound, with reset controls.
+- **Multi-node support** — manage and scale across multiple servers from a single panel.
+- **Outbound & routing** — WARP, NordVPN, custom routing rules, load balancers, and outbound proxy chaining.
+- **Built-in subscription server** with multiple output formats and [custom page templates](docs/custom-subscription-templates.md).
+- **Telegram bot** for remote monitoring and management.
+- **RESTful API** with in-panel Swagger documentation.
+- **Flexible storage** — SQLite (default) or PostgreSQL.
+- **13 UI languages** with dark and light themes.
+- **Fail2ban integration** for enforcing per-client IP limits.
+
+## Screenshots
+
+<details>
+<summary>Click to expand</summary>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./media/01-overview-dark.png">
+  <img alt="Overview" src="./media/01-overview-light.png">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./media/02-add-inbound-dark.png">
+  <img alt="Inbounds" src="./media/02-add-inbound-light.png">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./media/03-add-client-dark.png">
+  <img alt="Add client" src="./media/03-add-client-light.png">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./media/05-add-nodes-dark.png">
+  <img alt="Configs" src="./media/05-add-nodes-light.png">
+</picture>
+
+</details>
+
+## Quick Start
+
+```bash
+bash <(curl -Ls https://raw.githubusercontent.com/S1MPLE/S1MPLE-PANEL/master/install.sh)
 ```
-https://دامنه‌شما.up.railway.app/
-```
-یوزرنیم/پسورد پیش‌فرض S1MPLE PANEL را وارد کنید (admin/admin) و **حتماً بلافاصله از بخش تنظیمات تغییرش دهید**.
 
-### ۴. ساخت Inbound
-در پنل، یک Inbound جدید بسازید با این تنظیمات دقیق:
+To install a specific version, append its tag (e.g. `v3.4.0`):
 
-| فیلد | مقدار |
-|---|---|
-| Protocol | VLESS |
-| Listen Port | **8080** (این عدد نباید تغییر کند، چون nginx دقیقاً به همین پورت وصل است) |
-| Listen IP | خالی یا `0.0.0.0` |
-| Network | ws |
-| Security | none |
-| Path | `/inbound` (این مسیر در nginx تنظیم شده) |
-
-⚠️ اگر بخواهید پورت Inbound را عددی غیر از 8080 بگذارید، باید داخل فایل `nginx.conf.template` هم مقدار `127.0.0.1:8080` را با همان عدد جدید هماهنگ کنید و دوباره Push/Deploy کنید.
-
-### ۵. ساخت لینک کلاینت
-
-```
-vless://UUID@دامنه‌شما.up.railway.app:443?encryption=none&security=tls&sni=دامنه‌شما.up.railway.app&fp=chrome&type=ws&host=دامنه‌شما.up.railway.app&path=%2Finbound#MyConfig
+```bash
+bash <(curl -Ls https://raw.githubusercontent.com/S1MPLE/S1MPLE-PANEL/master/install.sh) v3.4.0
 ```
 
-جای `UUID` و `دامنه‌شما` و `path` را با مقادیر واقعی خودتان جایگزین کنید.
+To install the rolling **dev** build (latest per-commit pre-release from `main`, not a stable release), pass `dev-latest`:
 
-## تست سریع (قبل از تست با v2rayNG)
-
-در مرورگر باز کنید:
-```
-https://دامنه‌شما.up.railway.app/inbound
-```
-باید پیام **"Bad Request"** ببینید (یعنی درخواست به Xray رسیده). اگر پنل هم به همین شکل جواب داد یعنی مسیر nginx سالم است:
-```
-https://دامنه‌شما.up.railway.app/
+```bash
+bash <(curl -Ls https://raw.githubusercontent.com/S1MPLE/S1MPLE-PANEL/master/install.sh) dev-latest
 ```
 
-## نکات مهم
+During installation a random username, password, and access path are generated. After installation, run `x-ui` to open the management menu, where you can start/stop the service, view or reset your login credentials, manage SSL certificates, and more.
 
-- اگر چند Inbound دیگر هم بسازید، همه باید روی همین پورت داخلی **8080** باشند (چون فقط یک location در nginx به آن اشاره دارد). برای چند Inbound جدا با path های متفاوت روی همون پورت مشکلی نیست، چون از نگاه TCP یکی هستند و فقط Path داخل WebSocket آن‌ها را از هم جدا می‌کند.
-- دیتابیس/تنظیمات پنل (`/etc/x-ui`) روی فایل‌سیستم موقت کانتینر است. اگر می‌خواهید بعد از هر Redeploy تنظیمات (کاربران، Inbound ها) پاک نشود، از بخش **Volumes** در Railway یک Volume به مسیر `/etc/x-ui` وصل کنید.
+For full documentation, please visit the [project Wiki](https://github.com/S1MPLE/S1MPLE-PANEL/wiki).
+
+### Unattended install
+
+The installer also runs **non-interactively** for cloud-init.
+Set `XUI_NONINTERACTIVE=1` (or pipe with no TTY) and it installs end-to-end with
+zero prompts, generating random credentials and writing them to
+`/etc/x-ui/install-result.env`. See [`deploy/`](deploy/) for:
+
+- [Cloud-init user-data](deploy/cloud-init/) — unattended install on any cloud (Hetzner/AWS/DO/Vultr/GCP/Azure/Oracle)
+- [Hetzner Cloud notes](deploy/marketplace/hetzner/) — cloud-init deployment on Hetzner
+
+## Supported Platforms
+
+**Operating systems:** Ubuntu, Debian, Armbian, Fedora, CentOS, RHEL, AlmaLinux, Rocky Linux, Oracle Linux, Amazon Linux, Virtuozzo, Arch, Manjaro, Parch, openSUSE (Tumbleweed / Leap), Alpine, and Windows.
+
+**Architectures:** `amd64` · `386` · `arm64` (aarch64) · `armv7` · `armv6` · `armv5` · `s390x`.
+
+## Database Options
+
+S1MPLE PANEL supports two backends, chosen during the install:
+
+- **SQLite** (default) — a single file at `/etc/x-ui/x-ui.db`. Zero setup, ideal for small and medium deployments.
+- **PostgreSQL** — recommended for high client counts or multi-node setups. The installer can install PostgreSQL locally for you, or accept a DSN to an existing server.
+
+At runtime the backend is selected via environment variables (the installer writes these to `/etc/default/x-ui` for you):
+
+```
+XUI_DB_TYPE=postgres
+XUI_DB_DSN=postgres://xui:password@127.0.0.1:5432/xui?sslmode=disable
+```
+
+### Migrating an existing SQLite install to PostgreSQL
+
+```bash
+x-ui migrate-db --dsn "postgres://xui:password@127.0.0.1:5432/xui?sslmode=disable"
+# then set XUI_DB_TYPE and XUI_DB_DSN in /etc/default/x-ui and restart:
+systemctl restart x-ui
+```
+
+The source SQLite file is left untouched; remove it manually once you have verified the new backend.
+
+### Docker
+
+The default `docker compose up -d` keeps using SQLite. To run with the bundled PostgreSQL service, uncomment the two `XUI_DB_*` env lines in `docker-compose.yml` and start with the profile:
+
+```bash
+docker compose --profile postgres up -d
+```
+
+The image bundles Fail2ban (enabled by default) to enforce per-client **IP limits**. Fail2ban bans offenders with `iptables`, which requires the `NET_ADMIN` capability. `docker-compose.yml` already grants it via `cap_add`; if you start the container with `docker run` instead, add the capabilities yourself, otherwise bans are logged but never applied:
+
+```bash
+docker run -d --cap-add=NET_ADMIN --cap-add=NET_RAW ... ghcr.io/S1MPLE/S1MPLE-PANEL
+```
+
+## Environment Variables
+
+| Variable | Description | Default |
+| --- | --- | --- |
+| `XUI_DB_TYPE` | Database backend: `sqlite` or `postgres` | `sqlite` |
+| `XUI_DB_DSN` | PostgreSQL connection string (when `XUI_DB_TYPE=postgres`) | — |
+| `XUI_DB_FOLDER` | Directory for the SQLite database file | `/etc/x-ui` |
+| `XUI_DB_MAX_OPEN_CONNS` | Maximum open connections (PostgreSQL pool) | — |
+| `XUI_DB_MAX_IDLE_CONNS` | Maximum idle connections (PostgreSQL pool) | — |
+| `XUI_INIT_WEB_BASE_PATH` | The initial URI path for the web panel | `/` |
+| `XUI_ENABLE_FAIL2BAN` | Enable Fail2ban-based IP-limit enforcement | `true` |
+| `XUI_LOG_LEVEL` | Log verbosity (`debug`, `info`, `warning`, `error`) | `info` |
+| `XUI_DEBUG` | Enable debug mode | `false` |
+| `XUI_TUNNEL_HEALTH_MONITOR` | Enable the tunnel health monitor (probes a URL and restarts xray after repeated failures; a restart drops all clients) | `false` |
+| `XUI_TUNNEL_HEALTH_PROXY` | Proxy the probe is sent through; point it at a local xray inbound so the probe tests the tunnel (e.g. `socks5://127.0.0.1:1080`). Empty means the probe only checks host connectivity | — |
+| `XUI_TUNNEL_HEALTH_URL` | URL probed for tunnel health | `https://www.cloudflare.com/cdn-cgi/trace` |
+| `XUI_TUNNEL_HEALTH_INTERVAL` | Interval between probes | `30s` |
+| `XUI_TUNNEL_HEALTH_TIMEOUT` | Per-probe timeout | `10s` |
+| `XUI_TUNNEL_HEALTH_FAILURES` | Consecutive failures before a restart is triggered | `3` |
+| `XUI_TUNNEL_HEALTH_COOLDOWN` | Minimum delay between consecutive restarts | `5m` |
+
+## Supported Languages
+
+The panel UI is available in 13 languages:
+
+English · فارسی · العربية · 中文（简体） · 中文（繁體） · Español · Русский · Українська · Türkçe · Tiếng Việt · 日本語 · Bahasa Indonesia · Português (Brasil)
+
+## Contributing
+
+Contributions are welcome. Please read the [Contributing Guide](/CONTRIBUTING.md) before opening an issue or pull request.
+
+## A Special Thanks to
+
+- [alireza0](https://github.com/alireza0/)
+
+## Acknowledgment
+
+- [Iran v2ray rules](https://github.com/chocolate4u/Iran-v2ray-rules) (License: **GPL-3.0**): _Enhanced v2ray/xray and v2ray/xray-clients routing rules with built-in Iranian domains and a focus on security and adblocking._
+- [Russia v2ray rules](https://github.com/runetfreedom/russia-v2ray-rules-dat) (License: **GPL-3.0**): _This repository contains automatically updated V2Ray routing rules based on data on blocked domains and addresses in Russia._
+
+## Community Tools
+
+Tools and integrations built by the community around S1MPLE PANEL.
+
+- [terraform-provider-s1mple-panel](https://github.com/S1MPLE/terraform-provider-s1mple-panel) (License: **MIT**): _Manage inbounds, clients, panel settings, and Xray configuration as code with Terraform / OpenTofu._
+
+## Support project
+
+**If this project is helpful to you, you may wish to give it a**:star2:
+
+<a href="https://www.buymeacoffee.com/MHSanaei" target="_blank">
+<img src="./media/default-yellow.png" alt="Buy Me A Coffee" style="height: 70px !important;width: 277px !important;" >
+</a>
+
+</br>
+<a href="https://nowpayments.io/donation/hsanaei" target="_blank" rel="noreferrer noopener">
+   <img src="./media/donation-button-black.svg" alt="Crypto donation button by NOWPayments">
+</a>
+
+## Stargazers over Time
+
+[![Stargazers over time](https://starchart.cc/S1MPLE/S1MPLE-PANEL.svg?variant=adaptive)](https://starchart.cc/S1MPLE/S1MPLE-PANEL)
